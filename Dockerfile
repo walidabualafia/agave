@@ -1,6 +1,8 @@
 ### Build image ###
 FROM nvidia/cuda:12.6.1-devel-ubuntu24.04 AS build
 
+RUN add-apt-repository ppa:kisak/kisak-mesa 
+
 # install dependencies
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
