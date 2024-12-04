@@ -25,7 +25,11 @@ RUN apt-get update && apt-get install -y \
     libglx0 \
     libegl1 \
     libgles2 \
-    libxkbcommon-x11-0
+    libxkbcommon-x11-0 \
+    locales
+
+RUN locale-gen en_US.UTF-8 && \
+    update-locale LANG=en_US.UTF-8
 
 RUN apt-get install -y apt-transport-https ca-certificates gnupg
 
@@ -61,13 +65,27 @@ RUN git submodule update --init --recursive
 # build agave project
 RUN cd ./build && \
     cmake .. && \
-    cmake --build . --config Release -j 8
+    cmake --build . --config Release -j 48
 
 # leaving this here to show how to load example data into docker image
 # RUN mkdir /agavedata
 # RUN cp AICS-11_409.ome.tif /agavedata/
 # RUN cp AICS-12_881.ome.tif /agavedata/
 # RUN cp AICS-13_319.ome.tif /agavedata/
+
+RUN apt-get update && apt-get install -y \
+    libxcb-xinerama0 \
+    libxcb-cursor0 \
+    libxcb-icccm4 \
+    libxcb-image0 \
+    libxcb-keysyms1 \
+    libxcb-randr0 \
+    libxcb-render-util0 \
+    libxcb-shape0 \
+    libxcb-sync1 \
+    libxcb-util1 \
+    libxcb-xfixes0 \
+    libxkbcommon-x11-0 
 
 EXPOSE 1235
 
